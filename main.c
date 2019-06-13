@@ -6,7 +6,7 @@
 /*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:17:21 by krutten           #+#    #+#             */
-/*   Updated: 2019/05/23 21:01:26 by krutten          ###   ########.fr       */
+/*   Updated: 2019/06/13 16:45:13 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void		*iterate(void *arg)
 	pthread_exit(0);
 }
 
-void		thread_iter(t_specs *s)
+int			thread_iter(t_specs *s)
 {
 	pthread_t		tid[THREADS];
 	pthread_attr_t	attr;
 	t_specs			threadspecs[THREADS];
-	char			*threadstrings[THREADS];
+	char			*threadstr[THREADS];
 	int				i[2];
 
 	i[0] = -1;
@@ -55,8 +55,8 @@ void		thread_iter(t_specs *s)
 	{
 		threadspecs[i[0]] = *s;
 		threadspecs[i[0]].tnumber = i[0];
-		threadstrings[i[0]] = (char *)malloc(HEIGHT * (WIDTH - 300) * 4);
-		threadspecs[i[0]].thread_str = threadstrings[i[0]];
+		GUARD((threadstr[i[0]] = (char *)malloc(HEIGHT * (WIDTH - 300) * 4)));
+		threadspecs[i[0]].thread_str = threadstr[i[0]];
 		pthread_create(&tid[i[0]], &attr, iterate, &threadspecs[i[0]]);
 	}
 	while (--i[0] >= 0)
@@ -67,7 +67,7 @@ void		thread_iter(t_specs *s)
 			s->img_str[i[1]] = threadspecs[i[0]].thread_str[i[1]];
 		free(threadspecs[i[0]].thread_str);
 	}
-	mlx_put_image_to_window(s->mlx_ptr, s->win_ptr, s->img_ptr, 0, 0);
+	return (mlx_put_image_to_window(s->mlx_ptr, s->win_ptr, s->img_ptr, 0, 0));
 }
 
 static int	ft_match_string(char *arg)
@@ -78,9 +78,9 @@ static int	ft_match_string(char *arg)
 
 int			main(int argc, char **argv)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img_ptr;
+	void	*mlx;
+	void	*win;
+	void	*img;
 	t_specs	*specs;
 
 	if (argc != 2 || ft_match_string(argv[1]))
@@ -88,19 +88,18 @@ int			main(int argc, char **argv)
 		ft_putstr("Usage: ./fractol Mandelbrot/Julia/Burning_ship/Tricorn\n");
 		return (0);
 	}
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, WIDTH, HEIGHT, "Fract'ol");
-	img_ptr = mlx_new_image(mlx_ptr, WIDTH - 300, HEIGHT);
-	if (!(specs = init_specs(mlx_ptr, win_ptr, img_ptr, argv[1])))
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fract'ol");
+	img = mlx_new_image(mlx, WIDTH - 300, HEIGHT);
+	if (!(specs = init_specs(mlx, win, img, argv[1])) || !(thread_iter(specs)))
 	{
 		ft_putstr_fd("malloc error\n", 2);
 		return (0);
 	}
-	thread_iter(specs);
 	window_finish(specs);
-	mlx_key_hook(win_ptr, deal_key, specs);
-	mlx_mouse_hook(win_ptr, deal_mouse, specs);
-	mlx_hook(win_ptr, 6, (1L << 6), deal_move, specs);
-	mlx_loop(mlx_ptr);
+	mlx_key_hook(win, deal_key, specs);
+	mlx_mouse_hook(win, deal_mouse, specs);
+	mlx_hook(win, 6, (1L << 6), deal_move, specs);
+	mlx_loop(mlx);
 	return (0);
 }

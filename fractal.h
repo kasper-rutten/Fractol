@@ -6,7 +6,7 @@
 /*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:05:13 by krutten           #+#    #+#             */
-/*   Updated: 2019/05/23 21:06:14 by krutten          ###   ########.fr       */
+/*   Updated: 2019/06/13 16:44:53 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <pthread.h>
 # include "libft/libft.h"
 # include "minilibx_macos/mlx.h"
+# define GUARD(x) if (!x) return (0);
 
 typedef struct	s_specs
 {
@@ -53,7 +54,7 @@ int				ft_comp_tri(double realx, double imgy, float julx, float july);
 int				deal_mouse(int button, int x, int y, void *param);
 int				deal_key(int key, void *param);
 int				deal_move(int x, int y, void *param);
-void			thread_iter(t_specs *specs);
+int				thread_iter(t_specs *specs);
 void			colour_table0(t_specs *specs);
 void			colour_table1(t_specs *specs);
 void			colour_table2(t_specs *specs);

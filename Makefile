@@ -23,25 +23,38 @@ FLAGS= -Wall -Wextra -Werror -Ofast
 
 LIBRARIES=-L minilibx_macos -lmlx -L libft -lft
 
+LIBFT= libft/libft.a
+
+LIBMLX = minilibx_macos/libmlx.a
+
 FRAMEWORKS=-framework OpenGl -framework Appkit
 
-all: $(NAME)
+all: $(NAME) $(OBJS) $(LIBFT) $(LIBMLX)
 
-$(NAME):
-	#Compiling
+$(NAME): $(OBJS) $(LIBFT) $(LIBMLX)
+	#	---------Linking---------------------------
+	@gcc $(FLAGS) -o $@ $(OBJS) $(LIBRARIES) $(FRAMEWORKS)
+
+%.o: %.c $(HEADERS)
+	#	---------Compiling object file-------------
+	gcc $(FLAGS) -c $< -I $(HEADERS)
+
+$(LIBFT): 
+	#	---------Recompiling libft-----------------
 	@make -C libft/
+
+$(LIBMLX):
+	#	---------Recompiling libmlx----------------
 	@make -C minilibx_macos/
-	@gcc $(FLAGS) -c $(SRCS) -I $(HEADERS)
-	@gcc $(FLAGS) -o $(NAME) $(OBJS) $(LIBRARIES) $(FRAMEWORKS)
 
 clean:
-	#Cleaning
+	#	---------Cleaning--------------------------
 	@/bin/rm -f $(OBJS)
 	@make clean -C libft/
 	@make clean -C minilibx_macos/
 
 fclean: clean
-	#Fcleaning
+	#	---------Fcleaning-------------------------
 	@/bin/rm -f $(NAME)
 	@make fclean -C libft/
 

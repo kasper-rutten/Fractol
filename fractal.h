@@ -12,7 +12,7 @@
 
 #ifndef FRACTAL_H
 # define FRACTAL_H
-# define MAX_ITERATION 100
+# define MAX_ITERATION 50
 # define WIDTH 2300
 # define HEIGHT 1000
 # define THREADS 8

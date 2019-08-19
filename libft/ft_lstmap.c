@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkamegne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/18 17:05:59 by rkamegne          #+#    #+#             */
-/*   Updated: 2018/10/24 16:50:03 by rkamegne         ###   ########.fr       */
+/*   Created: 2018/10/10 20:36:54 by krutten           #+#    #+#             */
+/*   Updated: 2018/10/10 21:30:53 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,28 @@
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*new;
+	t_list	*reader;
+	t_list	*mapped;
+	t_list	*newhead;
+	t_list	*mapreader;
 
-	if (lst != NULL && f != NULL)
+	reader = lst;
+	newhead = NULL;
+	while (reader)
 	{
-		new = f(lst);
-		new->next = ft_lstmap(lst->next, f);
-		return (new);
+		mapped = malloc(sizeof(t_list));
+		mapped = f(reader);
+		if (!newhead)
+		{
+			newhead = mapped;
+			mapreader = mapped;
+		}
+		else
+		{
+			mapreader->next = mapped;
+			mapreader = mapreader->next;
+		}
+		reader = reader->next;
 	}
-	return (NULL);
+	return (newhead);
 }

@@ -3,27 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkamegne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/13 02:51:14 by rkamegne          #+#    #+#             */
-/*   Updated: 2018/10/22 17:36:52 by rkamegne         ###   ########.fr       */
+/*   Created: 2018/10/10 14:42:16 by krutten           #+#    #+#             */
+/*   Updated: 2018/10/10 14:42:26 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+static int	putnbr_div(int n)
 {
-	unsigned int nbr;
+	int		div;
 
+	div = 1;
+	while (n / div >= 10 || n / div <= -10)
+		div *= 10;
+	return (div);
+}
+
+void		ft_putnbr(int n)
+{
+	long	local;
+	int		divider;
+
+	divider = putnbr_div(n);
+	local = n;
 	if (n < 0)
 	{
 		ft_putchar('-');
-		nbr = -n;
+		local *= -1;
 	}
-	else
-		nbr = n;
-	if (nbr > 9)
-		ft_putnbr(nbr / 10);
-	ft_putchar(nbr % 10 + '0');
+	while (divider > 0)
+	{
+		ft_putchar((local / divider) + 48);
+		local = local % divider;
+		divider = divider / 10;
+	}
 }

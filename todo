@@ -1,0 +1,6 @@
+exit protocol for when something goes wrong mid execution |||||| DONE
+no macros with arguments like guard and abs |||||||||| DONE
+destroy window and destroy image |||| DONE
+protect mlx init ||||||||| DONE
+threadjoin, free and exit protocol when thread allocation fails ||||||| DONE
+free before exit(?) |||||||||||||| DONE

@@ -71,8 +71,8 @@ int		ft_comp_burn(double realx, double imgy, float julx, float july)
 	while (++iter < MAX_ITERATION && squares[0] + squares[1] < 4.0)
 	{
 		realtemp = squares[0] - squares[1] + realx;
-		new[1] = ABS(2 * new[0] * new[1]) + imgy;
-		new[0] = ABS(realtemp);
+		new[1] = ft_abs(2 * new[0] * new[1]) + imgy;
+		new[0] = ft_abs(realtemp);
 		squares[0] = new[0] * new[0];
 		squares[1] = new[1] * new[1];
 	}

@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_words.c                                   :+:      :+:    :+:   */
+/*   ft_digitcount.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkamegne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/22 20:41:33 by rkamegne          #+#    #+#             */
-/*   Updated: 2018/10/22 20:45:19 by rkamegne         ###   ########.fr       */
+/*   Created: 2019/06/28 19:40:14 by krutten           #+#    #+#             */
+/*   Updated: 2019/06/28 19:40:15 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_count_words(char *str, char delim)
+int		ft_digitcount(int n)
 {
-	int		i;
-	int		count;
+	int		divider;
+	int		digits;
 
-	i = 0;
-	count = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
+	divider = 1;
+	digits = 1;
+	while (n / divider > 9)
 	{
-		if (str[i] != delim)
-		{
-			count++;
-			while (str[i] != delim && str[i] != '\0')
-				i++;
-		}
-		else
-			i++;
+		divider *= 10;
+		digits++;
 	}
-	return (count);
+	return (digits);
 }

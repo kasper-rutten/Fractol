@@ -3,30 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkamegne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/13 03:22:00 by rkamegne          #+#    #+#             */
-/*   Updated: 2018/10/13 03:28:41 by rkamegne         ###   ########.fr       */
+/*   Created: 2018/10/10 14:59:30 by krutten           #+#    #+#             */
+/*   Updated: 2018/10/10 15:00:38 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+static int	putnbr_div(int n)
 {
-	char			c;
-	unsigned int	nbr;
+	int		div;
 
+	div = 1;
+	while (n / div >= 10 || n / div <= -10)
+		div *= 10;
+	return (div);
+}
+
+void		ft_putnbr_fd(int n, int fd)
+{
+	long	local;
+	int		divider;
+
+	divider = putnbr_div(n);
+	local = n;
 	if (n < 0)
 	{
-		c = '-';
-		write(fd, &c, 1);
-		nbr = -n;
+		ft_putchar_fd('-', fd);
+		local *= -1;
 	}
-	else
-		nbr = n;
-	if (nbr > 9)
-		ft_putnbr_fd(nbr / 10, fd);
-	c = nbr % 10 + '0';
-	write(fd, &c, 1);
+	while (divider > 0)
+	{
+		ft_putchar_fd((local / divider) + 48, fd);
+		local = local % divider;
+		divider = divider / 10;
+	}
 }

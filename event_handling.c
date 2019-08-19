@@ -95,10 +95,7 @@ int		deal_key(int key, void *param)
 
 	reader = param;
 	if (key == 53)
-	{
-		exit(0);
-		return (0);
-	}
+		exit_protocol1(reader);
 	else if (key == 14)
 		reader->edit *= -1;
 	else if (key == 15)

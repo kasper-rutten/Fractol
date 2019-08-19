@@ -3,36 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkamegne <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: krutten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/08 17:45:34 by rkamegne          #+#    #+#             */
-/*   Updated: 2019/01/12 20:50:12 by rkamegne         ###   ########.fr       */
+/*   Created: 2018/10/06 18:05:44 by krutten           #+#    #+#             */
+/*   Updated: 2019/08/14 14:51:59 by krutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 int		ft_atoi(const char *str)
 {
-	int		i;
-	int		is_negative;
-	int		nbr;
+	long	output;
+	int		sign;
 
-	i = 0;
-	is_negative = 0;
-	nbr = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v' ||
-			str[i] == '\r' || str[i] == '\f' || str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-		is_negative = 1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while ('0' <= str[i] && str[i] <= '9')
+	sign = 1;
+	output = 0;
+	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\v'
+			|| *str == '\r' || *str == '\f')
+		str++;
+	if (*str == '+' || *str == '-')
+		str++;
+	if (*(str - 1) == '-')
+		sign = -1;
+	while (*str >= 48 && *str <= 57)
 	{
-		nbr *= 10;
-		nbr += str[i] - '0';
-		i++;
+		if ((output > 922337203685477580 || (output ==
+						922337203685477580 && *str - 48 > 7)) && sign == 1)
+			return (-1);
+		if ((output > 922337203685477580 || (output ==
+						922337203685477580 && *str - 48 > 8)) && sign == -1)
+			return (0);
+		output *= 10;
+		output += *str - 48;
+		str++;
 	}
-	if (is_negative)
-		nbr = -nbr;
-	return (nbr);
+	return (output * sign);
 }

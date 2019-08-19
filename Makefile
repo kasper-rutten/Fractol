@@ -13,7 +13,7 @@
 NAME=fractol
 
 SRCS=event_handling.c compute.c initialise.c main.c\
-	palettes.c window_finish_palettes.c window_finish.c
+	palettes.c window_finish_palettes.c window_finish.c exit_protocols.c
 
 OBJS=${SRCS:.c=.o} 
 

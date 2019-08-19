@@ -53,9 +53,9 @@ int			thread_iter(t_specs *s)
 	pthread_attr_init(&attr);
 	while (++i[0] < THREADS)
 	{
-		threadspecs[i[0]] = *s;
-		threadspecs[i[0]].tnumber = i[0];
-		GUARD((threadstr[i[0]] = (char *)malloc(HEIGHT * (WIDTH - 300) * 4)));
+		threadspecs[i[0]] = init_threadspecs(s, i[0]);
+		if (!(threadstr[i[0]] = (char *)malloc(HEIGHT * (WIDTH - 300) * 4)))
+			exit_protocol2(tid, s, threadstr);
 		threadspecs[i[0]].thread_str = threadstr[i[0]];
 		pthread_create(&tid[i[0]], &attr, iterate, &threadspecs[i[0]]);
 	}
@@ -88,7 +88,8 @@ int			main(int argc, char **argv)
 		ft_putstr("Usage: ./fractol Mandelbrot/Julia/Burning_ship/Tricorn\n");
 		return (0);
 	}
-	mlx = mlx_init();
+	if (!(mlx = mlx_init()))
+		return (0);
 	win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fract'ol");
 	img = mlx_new_image(mlx, WIDTH - 300, HEIGHT);
 	if (!(specs = init_specs(mlx, win, img, argv[1])) || !(thread_iter(specs)))

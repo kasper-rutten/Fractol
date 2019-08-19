@@ -16,14 +16,11 @@
 # define WIDTH 2300
 # define HEIGHT 1000
 # define THREADS 8
-# define ABS(x) ((x) < 0 ? -(x): (x))
 # include <stdlib.h>
-# include <stdio.h>
 # include <math.h>
 # include <pthread.h>
 # include "libft/libft.h"
 # include "minilibx_macos/mlx.h"
-# define GUARD(x) if (!x) return (0);
 
 typedef struct	s_specs
 {
@@ -64,4 +61,8 @@ int				ft_gradient(int i, int *pal);
 int				rgb_fluid(float ratio, int color1, int color2);
 void			window_finish(t_specs *specs);
 void			draw_palettes(t_specs *specs);
+void    		exit_protocol1(t_specs *reader);
+void    		exit_protocol2(pthread_t *tid, t_specs *specs, char **threadstr);
+t_specs			init_threadspecs(t_specs *specs, int i);
+
 #endif

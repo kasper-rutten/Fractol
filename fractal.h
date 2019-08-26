@@ -61,8 +61,9 @@ int				ft_gradient(int i, int *pal);
 int				rgb_fluid(float ratio, int color1, int color2);
 void			window_finish(t_specs *specs);
 void			draw_palettes(t_specs *specs);
-void    		exit_protocol1(t_specs *reader);
-void    		exit_protocol2(pthread_t *tid, t_specs *specs, char **threadstr);
+void			exit_protocol1(t_specs *reader);
+void			exit_protocol2(pthread_t *tid,
+t_specs *specs, char **threadstr);
 t_specs			init_threadspecs(t_specs *specs, int i);
 
 #endif
